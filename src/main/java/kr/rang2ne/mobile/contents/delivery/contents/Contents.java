@@ -1,5 +1,6 @@
 package kr.rang2ne.mobile.contents.delivery.contents;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import kr.rang2ne.mobile.contents.delivery.member.Member;
 import lombok.Data;
 
@@ -23,6 +24,7 @@ public class Contents {
     private Date createDate;
     private Date modifyDate;
 
+    @JsonBackReference
     @ManyToOne
     private Member member;
 

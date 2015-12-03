@@ -16,18 +16,18 @@ public class MemberController {
     MemberService memberService;
 
     @RequestMapping(
-            name = "/members"
+            value = "/members"
             ,method = RequestMethod.GET
     )
     public ResponseEntity getMembers(){
         return new ResponseEntity(memberService.findAll(), HttpStatus.OK);
     }
 
-    @RequestMapping(
-            name = "/hello"
-            ,method = RequestMethod.GET
-    )
-    public String test124(){
-        return "hello";
-    }
+//    @RequestMapping(
+//            name = "/hello"
+//            ,method = RequestMethod.GET
+//    )
+//    public String test124(){
+//        return "hello";
+//    }
 }

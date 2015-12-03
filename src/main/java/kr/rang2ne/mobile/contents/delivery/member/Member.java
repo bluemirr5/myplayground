@@ -1,5 +1,6 @@
 package kr.rang2ne.mobile.contents.delivery.member;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import kr.rang2ne.mobile.contents.delivery.contents.Contents;
 import lombok.Data;
 
@@ -18,6 +19,7 @@ public class Member {
     private String id;
     private String password;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "member")
     private List<Contents> contentsList;
 }
