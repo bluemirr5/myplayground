@@ -22,12 +22,4 @@ public class MemberController {
     public ResponseEntity getMembers(){
         return new ResponseEntity(memberService.findAll(), HttpStatus.OK);
     }
-
-//    @RequestMapping(
-//            name = "/hello"
-//            ,method = RequestMethod.GET
-//    )
-//    public String test124(){
-//        return "hello";
-//    }
 }

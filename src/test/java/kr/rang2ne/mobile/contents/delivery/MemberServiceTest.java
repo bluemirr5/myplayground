@@ -8,12 +8,16 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
 /**
  * Created by gswon on 15. 11. 30.
  */
-//@WebAppConfiguration
+@WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = {Application.class})
 @Transactional
@@ -21,36 +25,14 @@ public class MemberServiceTest {
     @Autowired
     MemberService memberService;
 
+    @Autowired
+    WebApplicationContext wac;
+    MockMvc mockMvc;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-
-//    @Autowired
-//    WebApplicationContext wac;
-//    @Autowired
-//    private FilterChainProxy filterChainProxy;
-//    MockMvc mockMvc;
     @Before
     public void setup() {
-//        mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-//                .addFilter(filterChainProxy)
-//                .build();
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
-
-//    @Test
-//    public void encryptPasswordTest() throws Exception {
-//        final String id = "Test";
-//        final String password = "1234";
-//        Member member = new Member();
-//        member.setId(id);
-//        member.setPassword(password);
-//
-//        memberService.save(member);
-//
-//        Member findMember = memberService.findById(id);
-//        Assert.isTrue(passwordEncoder.matches(password, findMember.getPassword()));
-//
-//    }
 
     @Test(expected = IllegalStateException.class)
     public void saveDuplicateMember() throws Exception {

@@ -17,9 +17,6 @@ public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-
     public List<Member> findByIdLike(String id) {
         return memberRepository.findByIdLike(id);
     }
@@ -36,7 +33,6 @@ public class MemberService {
         if(memberRepository.exists(member.getId())) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
-//        member.setPassword(passwordEncoder.encode(member.getPassword()));
         memberRepository.save(member);
     }
 
