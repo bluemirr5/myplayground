@@ -1,6 +1,8 @@
 package kr.rang2ne.mobile.contents.delivery.member;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,9 +12,13 @@ import java.util.List;
  * Created by gswon on 15. 11. 30.
  */
 @Service
+@Slf4j
 public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<Member> findByIdLike(String id) {
         return memberRepository.findByIdLike(id);
@@ -22,10 +28,15 @@ public class MemberService {
         return memberRepository.findAllKeyword(keyword);
     }
 
+    public List<Member> findAll() {
+        return memberRepository.findAll();
+    }
+
     public void save(Member member) throws Exception {
         if(memberRepository.exists(member.getId())) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
+        member.setPassword(passwordEncoder.encode(member.getPassword()));
         memberRepository.save(member);
     }
 
@@ -33,12 +44,12 @@ public class MemberService {
         return memberRepository.findOne(id);
     }
 
-//    @Transactional
+    @Transactional
     public void setPassword() {
-        memberRepository.findAll().forEach(member1 -> System.out.println(member1.getPassword()));
+        memberRepository.findAll().forEach(member1 -> log.debug(member1.getPassword()));
         memberRepository.findAll().forEach(member -> member.setPassword("setted3"));
-        memberRepository.findAll().forEach(member1 -> System.out.println(member1.getPassword()));
-        memberRepository.findHasContentSize4Over().forEach(member -> System.out.println(member.getId()));
+        memberRepository.findAll().forEach(member1 -> log.debug(member1.getPassword()));
+        memberRepository.findHasContentSize4Over().forEach(member -> log.debug(member.getId()));
+        memberRepository.findAll().forEach(member -> log.debug(""+member.getContentsList().size()));
     }
-
 }
