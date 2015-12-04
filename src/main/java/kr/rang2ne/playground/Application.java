@@ -1,4 +1,4 @@
-package kr.rang2ne.mobile.contents.delivery;
+package kr.rang2ne.playground;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;

@@ -1,4 +1,4 @@
-package kr.rang2ne.mobile.contents.delivery.contents;
+package kr.rang2ne.playground.contents;
 
 import org.springframework.stereotype.Service;
 

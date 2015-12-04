@@ -1,7 +1,7 @@
-package kr.rang2ne.mobile.contents.delivery.member;
+package kr.rang2ne.playground.member;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import kr.rang2ne.mobile.contents.delivery.contents.Contents;
+import kr.rang2ne.playground.contents.Contents;
 import lombok.Data;
 
 import javax.persistence.Entity;

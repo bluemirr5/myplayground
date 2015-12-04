@@ -1,7 +1,7 @@
-package kr.rang2ne.mobile.contents.delivery;
+package kr.rang2ne.playground;
 
-import kr.rang2ne.mobile.contents.delivery.member.Member;
-import kr.rang2ne.mobile.contents.delivery.member.MemberService;
+import kr.rang2ne.playground.member.Member;
+import kr.rang2ne.playground.member.MemberService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

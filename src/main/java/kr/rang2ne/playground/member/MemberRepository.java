@@ -1,4 +1,4 @@
-package kr.rang2ne.mobile.contents.delivery.member;
+package kr.rang2ne.playground.member;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
