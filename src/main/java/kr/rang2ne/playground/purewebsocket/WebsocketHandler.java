@@ -1,4 +1,4 @@
-package kr.rang2ne.playground.message;
+package kr.rang2ne.playground.purewebsocket;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -8,7 +8,8 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
-import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by gswon on 15. 12. 4.
@@ -18,35 +19,43 @@ import java.util.Date;
 @Slf4j
 public class WebsocketHandler extends TextWebSocketHandler {
 
+    private Set<WebSocketSession> sessions = new HashSet<>();
+
+    private synchronized void addSession(WebSocketSession session) {
+        sessions.add(session);
+    }
+
+    private synchronized void removeSession(WebSocketSession session) {
+        sessions.remove(session);
+    }
 
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        Thread th = new Thread(() -> {
-            int times = 0;
-            while(times < 5) {
-                try {
-                    Thread.sleep(1000);
-                    session.sendMessage(new TextMessage("now is " + (new Date()).toString()));
-                    log.debug("send");
-                } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-                times++;
-            }
-        });
-        th.start();
+        addSession(session);
+        log.info(sessions.size() + "");
         log.info("after connect : " + session  + ":" + this);
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         super.afterConnectionClosed(session, status);
+        log.info("after disconnect : " + session  + ":" + this);
+        removeSession(session);
     }
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        log.info(session.getRemoteAddress().toString());
-        log.info(message.getPayload());
+        sessions.forEach(eachSession -> {
+            try {
+                if(!eachSession.isOpen()){
+                    removeSession(eachSession);
+                } else {
+                    eachSession.sendMessage(message);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

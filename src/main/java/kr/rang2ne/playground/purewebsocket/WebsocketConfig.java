@@ -1,4 +1,4 @@
-package kr.rang2ne.playground.message;
+package kr.rang2ne.playground.purewebsocket;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

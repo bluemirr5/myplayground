@@ -39,7 +39,9 @@
         function disconnect() {
             setConnected(false);
             console.log("Disconnected");
-            if(ws && ws.connected) ws.disconnect();
+            console.log(ws);
+            if(ws && ws.readyState == 1) ws.close();
+            console.log(ws);
         }
 
         function sendName() {
