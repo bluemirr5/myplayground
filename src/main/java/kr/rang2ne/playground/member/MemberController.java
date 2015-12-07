@@ -1,5 +1,6 @@
 package kr.rang2ne.playground.member;
 
+import kr.rang2ne.playground.member.exception.AuthFailException;
 import kr.rang2ne.playground.member.model.Member;
 import kr.rang2ne.playground.member.model.MemberDTO;
 import org.modelmapper.ModelMapper;
@@ -44,9 +45,10 @@ public class MemberController {
             method = POST
     )
     public ResponseEntity postMember(
-            @RequestBody @Valid MemberDTO.Save saveDTO
+            @RequestBody @Valid MemberDTO.SaveREQ saveDTO
     ) throws Exception {
-        memberService.save(modelMapper.map(saveDTO, Member.class));
+        Member member = modelMapper.map(saveDTO, Member.class);
+        memberService.save(member);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -54,17 +56,23 @@ public class MemberController {
             value = "/login",
             method = POST
     )
-    public ResponseEntity login(
-            @RequestBody @Valid MemberDTO.Login loginDTO,
+    public ResponseEntity<MemberDTO.LoginRESP> login(
+            @RequestBody @Valid MemberDTO.LoginREQ loginDTO,
             HttpSession session
     ) throws Exception {
-        Member member = memberService.auth(modelMapper.map(loginDTO, Member.class));
+        Member memberParam = modelMapper.map(loginDTO, Member.class);
+        Member member = memberService.auth(memberParam);
         session.setAttribute("auth", member);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(member, MemberDTO.LoginRESP.class), HttpStatus.OK);
+    }
+
+    @ExceptionHandler(AuthFailException.class)
+    public ResponseEntity<Integer> exceptionHandling(AuthFailException e) {
+        return new ResponseEntity<>(e.getDetailErrorCode(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity exceptionHandling(Exception e) {
-        return new ResponseEntity(e, HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<Exception> exceptionHandling(Exception e) {
+        return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

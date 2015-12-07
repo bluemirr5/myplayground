@@ -9,17 +9,21 @@ import javax.validation.constraints.NotNull;
  */
 public class MemberDTO {
     @Data
-    public static class Save {
+    public static class SaveREQ {
         @NotNull
         private String id;
         @NotNull
         private String password;
     }
     @Data
-    public static class Login {
+    public static class LoginREQ {
         @NotNull
         private String id;
         @NotNull
         private String password;
+    }
+    @Data
+    public static class LoginRESP {
+        private String id;
     }
 }

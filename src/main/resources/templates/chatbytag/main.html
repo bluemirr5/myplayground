@@ -1,10 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="chatApp">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>ChatByTag</title>
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        body {
+            padding-top: 50px;
+        }
+        /*.starter-template {*/
+            /*padding: 40px 15px;*/
+            /*text-align: center;*/
+        /*}*/
+    </style>
 </head>
 <body>
-    
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Tag Chat</a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+
+    <div class="container">
+        <div ng-controller="selectTagController">
+            <h2>Select Tag</h2>
+            <label for="tag">Tag : </label> <input id="tag" ng-model="tag.id" type="text" />
+            <button ng-if="!connected" ng-click="tag.onClickConnect()">Connect</button>
+            <button ng-if="connected" ng-click="tag.onClickDisconnect()">Disconnect</button>
+            <div>
+                <ul>
+                    <li ng-repeat="message in messages" ng-bind="message"></li>
+                </ul>
+            </div>
+            <div>
+                <input type="text" ng-model="curmessage" /><button ng-click="send()">Send</button>
+            </div>
+        </div>
+    </div><!-- /.container -->
+
+
+    <script src="/components/jquery/dist/jquery.min.js"></script>
+    <script src="/components/angular/angular.min.js"></script>
+    <script src="/components/sockjs/sockjs.min.js"></script>
+    <script src="/components/stomp-websocket/lib/stomp.min.js"></script>
+    <script src="/components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="/chatbytag/js/app.js"></script>
+    <script src="/chatbytag/js/main.js"></script>
 </body>
 </html>

@@ -16,11 +16,11 @@ public class ChatWebsocketConfig extends AbstractWebSocketMessageBrokerConfigure
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/chat");
-        config.setApplicationDestinationPrefixes("/app");
+//        config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/hello").withSockJS();
+        registry.addEndpoint("/chatByTag").withSockJS();
     }
 }

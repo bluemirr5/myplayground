@@ -1,5 +1,6 @@
 package kr.rang2ne.playground.member.exception;
 
+import kr.rang2ne.playground.common.RuntimeBaseException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,9 +11,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthFailException extends IllegalArgumentException {
+public class AuthFailException extends RuntimeBaseException {
     public static int ID_FAIL = 1;
     public static int PASS_FAIL = 2;
 
-    private int failStatusCode;
+    private Integer errorCode;
+
+    @Override
+    public Integer getDetailErrorCode() {
+        return this.errorCode;
+    }
 }
