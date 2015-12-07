@@ -1,7 +1,9 @@
-package kr.rang2ne.playground.member;
+package kr.rang2ne.playground.member.customrepository;
 
 import com.mysema.query.jpa.JPQLQuery;
 import kr.rang2ne.playground.contents.QContents;
+import kr.rang2ne.playground.member.QMember;
+import kr.rang2ne.playground.member.model.Member;
 import org.springframework.data.jpa.repository.support.QueryDslRepositorySupport;
 
 import java.util.ArrayList;

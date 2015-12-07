@@ -1,4 +1,4 @@
-package kr.rang2ne.playground.member;
+package kr.rang2ne.playground.member.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import kr.rang2ne.playground.contents.Contents;
@@ -22,4 +22,8 @@ public class Member {
     @JsonManagedReference
     @OneToMany(mappedBy = "member")
     private List<Contents> contentsList;
+
+    public boolean checkIdPass(String id, String password) {
+        return this.id.equals(id)  && this.password.equals(password);
+    }
 }

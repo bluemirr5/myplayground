@@ -1,6 +1,8 @@
 package kr.rang2ne.playground;
 
-import kr.rang2ne.playground.member.Member;
+import kr.rang2ne.playground.member.exception.AuthFailException;
+import kr.rang2ne.playground.member.exception.DuplicationIdException;
+import kr.rang2ne.playground.member.model.Member;
 import kr.rang2ne.playground.member.MemberService;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,8 +36,8 @@ public class MemberServiceTest {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void saveDuplicateMember() throws Exception {
+    @Test(expected = DuplicationIdException.class)
+    public void 회원가입_중복아이디() throws Exception {
         Member member = new Member();
         member.setId("abc");
         member.setPassword("asdfasdf");
@@ -45,6 +47,28 @@ public class MemberServiceTest {
         dupMember.setId("abc");
         dupMember.setPassword("111asdfasdf");
         memberService.save(dupMember);
+    }
+
+    @Test(expected = AuthFailException.class)
+    public void 로그인_아이디_실패(){
+        Member member = new Member();
+        member.setId("abc");
+        member.setPassword("asdfasdf");
+        memberService.save(member);
+
+        member.setId("abc111");
+        memberService.auth(member);
+    }
+
+    @Test(expected = AuthFailException.class)
+    public void 로그인_패스워드_실패(){
+        Member member = new Member();
+        member.setId("abc");
+        member.setPassword("asdfasdf");
+        memberService.save(member);
+
+        member.setPassword("asdfasdf111");
+        memberService.auth(member);
     }
 }
 

@@ -1,4 +1,6 @@
-package kr.rang2ne.playground.member;
+package kr.rang2ne.playground.member.customrepository;
+
+import kr.rang2ne.playground.member.model.Member;
 
 import java.util.List;
 

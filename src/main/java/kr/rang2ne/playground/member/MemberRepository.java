@@ -1,5 +1,7 @@
 package kr.rang2ne.playground.member;
 
+import kr.rang2ne.playground.member.model.Member;
+import kr.rang2ne.playground.member.customrepository.CustomMemberRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
