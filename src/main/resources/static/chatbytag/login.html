@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="loginApp">
+<head>
+    <meta charset="UTF-8" />
+    <title>ChatByTag</title>
+    <script src="/components/angular/angular.min.js"></script>
+    <script src="/chatbytag/js/login.js"></script>
+</head>
+<body>
+    <form ng-controller="loginController">
+        <label for="loginId">ID : </label><input id="loginId" type="text" ng-model="loginmodel.id" />
+        <br />
+        <label for="pass">PASSWORD : </label><input id="pass" type="password" ng-model="loginmodel.pass" />
+        <br />
+        <button id="submit" ng-click="loginmodel.login()">LOGIN</button>
+    </form>
+</body>
+</html>
