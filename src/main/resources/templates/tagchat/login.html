@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="loginApp">
+<head>
+    <meta charset="UTF-8" />
+    <title>ChatByTag</title>
+    <script src="/components/angular/angular.min.js"></script>
+    <script src="/chatbytag/js/login.js"></script>
+</head>
+<body>
+    <form ng-controller="loginController">
+        <div>
+            <label for="loginId">ID : </label><input id="loginId" type="text" ng-model="loginmodel.id" />
+            <br />
+            <label for="pass">PASSWORD : </label><input id="pass" type="password" ng-model="loginmodel.pass" />
+            <br />
+            <button id="submit" ng-click="loginmodel.login()">LOGIN</button>
+        </div>
+        <button ng-click="joinFlag = !joinFlag">join</button>
+        <div ng-show="joinFlag">
+            <label for="joinId">ID : </label><input id="joinId" type="text" ng-model="joinmodel.id" />
+            <br />
+            <label for="joinPass">PASSWORD : </label><input id="joinPass" type="password" ng-model="joinmodel.pass" />
+            <br />
+            <label for="passconfirm">REPASSWORD : </label><input id="passconfirm" type="password" ng-model="joinmodel.repass" />
+            <br />
+            <button id="join" ng-click="joinmodel.join()">JOIN</button>
+        </div>
+    </form>
+</body>
+</html>

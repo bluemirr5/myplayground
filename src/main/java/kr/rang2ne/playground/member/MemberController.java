@@ -45,10 +45,13 @@ public class MemberController {
             method = POST
     )
     public ResponseEntity postMember(
-            @RequestBody @Valid MemberDTO.SaveREQ saveDTO
+            @RequestBody @Valid MemberDTO.SaveREQ saveDTO,
+            HttpSession session
     ) throws Exception {
-        Member member = modelMapper.map(saveDTO, Member.class);
-        memberService.save(member);
+        Member memberParam = modelMapper.map(saveDTO, Member.class);
+        memberService.save(memberParam);
+        Member member = memberService.auth(memberParam);
+        session.setAttribute("auth", modelMapper.map(member, MemberDTO.SessionModel.class));
         return new ResponseEntity(HttpStatus.OK);
     }
 

@@ -21,23 +21,19 @@ public class ChatController {
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    @RequestMapping(value = "/chat2/main")
+    @RequestMapping(value = "/tagchat")
     public String chatMain(HttpSession session){
         Object member = session.getAttribute("auth");
-        log.info(session.getId());
         if(member == null ||
                 !(member instanceof MemberDTO.SessionModel) ||
                 ((MemberDTO.SessionModel)member).getId() == null) {
-            return "hello";
+            return "tagchat/login";
         }
-        return "chatbytag/main";
+        return "tagchat/main";
     }
 
     @MessageMapping("/channel/{channel}")
     public void sendChannel(@DestinationVariable String channel, SimpMessageHeaderAccessor headerAccessor, Message message) {
-//        Member member = (Member) headerAccessor.getSessionAttributes().get("auth");
-//        log.info(member.getId());
-        String sessionId = headerAccessor.getSessionId();
         String userName = headerAccessor.getUser().getName();
         message.setFromUser(userName);
         simpMessagingTemplate.convertAndSend("/chat/"+channel, message);
