@@ -44,7 +44,10 @@
             <button ng-if="connected" ng-click="tag.onClickDisconnect()">Disconnect</button>
             <div>
                 <ul>
-                    <li ng-repeat="message in messages" ng-bind="message"></li>
+                    <li ng-repeat="message in messages">
+                        <span ng-bind="message.fromUser"></span>
+                        <span ng-bind="message.message"></span>
+                    </li>
                 </ul>
             </div>
             <div>

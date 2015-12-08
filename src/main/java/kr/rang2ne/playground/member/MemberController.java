@@ -62,7 +62,7 @@ public class MemberController {
     ) throws Exception {
         Member memberParam = modelMapper.map(loginDTO, Member.class);
         Member member = memberService.auth(memberParam);
-        session.setAttribute("auth", member);
+        session.setAttribute("auth", modelMapper.map(member, MemberDTO.SessionModel.class));
         return new ResponseEntity<>(modelMapper.map(member, MemberDTO.LoginRESP.class), HttpStatus.OK);
     }
 

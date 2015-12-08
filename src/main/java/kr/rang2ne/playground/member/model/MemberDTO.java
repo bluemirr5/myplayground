@@ -26,4 +26,8 @@ public class MemberDTO {
     public static class LoginRESP {
         private String id;
     }
+    @Data
+    public static class SessionModel {
+        private String id;
+    }
 }

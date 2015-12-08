@@ -1,25 +1,27 @@
 angular.module('main.controllers', [])
     .controller('selectTagController', function($scope) {
         $scope.connected = false;
+        $scope.messages = [];
         var stompClient;
         function connect(tag) {
             var socket = new SockJS('/chatByTag');
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function(frame) {
                 $scope.connected = true;
-                $scope.$apply();
                 stompClient.subscribe('/chat/'+tag, function(chatData){
-                    console.log("subscribe");
-                    console.log(chatData);
+                    $scope.messages.push(JSON.parse(chatData.body));
+                    $scope.$apply();
                 });
+                $scope.$apply();
             });
         }
 
         $scope.send = function() {
             //stompClient.send
-            console.log($scope.tag.id + ":" + $scope.curmessage);
-            stompClient.send('/chat/channel/'+$scope.tag.id, {}, $scope.curmessage);
-
+            var sendObject = {message : $scope.curmessage};
+            console.log($scope.tag.id + ":" + sendObject);
+            stompClient.send('/channel/'+$scope.tag.id, {},  JSON.stringify(sendObject));
+            $scope.curmessage = '';
         };
 
         $scope.tag = {

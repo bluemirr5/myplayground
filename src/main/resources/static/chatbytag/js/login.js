@@ -10,7 +10,7 @@ angular.module('loginApp', [])
                 };
                 $http.post('/login', sendmodel)
                     .success(function(data, status){
-                        $window.location.href = '/chat/main';
+                        $window.location.href = '/chat2/main';
                     })
                     .error(function(data){
                         console.log(data);
