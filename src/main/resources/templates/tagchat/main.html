@@ -37,21 +37,72 @@
     </nav>
 
     <div class="container">
-        <div ng-controller="selectTagController">
-            <h2>Select Tag</h2>
-            <label for="tag">Tag : </label> <input id="tag" ng-model="tag.id" type="text" />
-            <button ng-if="!connected" ng-click="tag.onClickConnect()">Connect</button>
-            <button ng-if="connected" ng-click="tag.onClickDisconnect()">Disconnect</button>
-            <div>
-                <ul>
-                    <li ng-repeat="message in messages">
-                        <span ng-bind="message.fromUser"></span>
-                        <span ng-bind="message.message"></span>
-                    </li>
-                </ul>
+        <div ng-controller="selectTagController" class="row" style="padding-top: 30px">
+            <div class="col-md-8">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Tag</span>
+                            <input type="text" class="form-control" ng-model="tag.id" ng-disabled="connected"  />
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" ng-if="!connected" ng-click="tag.connect()">Connect</button>
+                                <button class="btn btn-default" type="button" ng-if="connected" ng-click="tag.disconnect()">Disconnect</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="media-list">
+                            <li class="media" ng-repeat="message in messages">
+                                <div class="media-body">
+                                    <div class="media">
+                                        <a class="pull-left" href="#">
+                                            <img class="media-object img-circle " src="assets/img/user.png" />
+                                        </a>
+                                        <div class="media-body">
+                                            <span ng-bind="message.message"></span>
+                                            <br />
+                                            <small class="text-muted"><span ng-bind="message.fromUser"></span> | <span ng-bind="message.convDate"></span></small>
+                                            <hr />
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="input-group">
+                            <input type="text" ng-disabled="!connected" ng-model="curmessage" class="form-control" placeholder="Enter Message" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-info" type="button" ng-disabled="!connected" ng-click="send()">SEND</button>
+                                </span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div>
-                <input type="text" ng-model="curmessage" /><button ng-click="send()">Send</button>
+            <div class="col-md-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        ONLINE USERS
+                    </div>
+                    <div class="panel-body">
+                        <ul class="media-list">
+                            <li class="media">
+                                <div class="media-body">
+                                    <div class="media">
+                                        <a class="pull-left" href="#">
+                                            <img class="media-object img-circle" style="max-height:40px;" src="assets/img/user.png" />
+                                        </a>
+                                        <div class="media-body">
+                                            <h5>Alex Deo | User </h5>
+                                            <small class="text-muted">Active From 3 hours</small>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div><!-- /.container -->

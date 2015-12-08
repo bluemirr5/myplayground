@@ -9,7 +9,9 @@ angular.module('main.controllers', [])
             stompClient.connect({}, function(frame) {
                 $scope.connected = true;
                 stompClient.subscribe('/chat/'+tag, function(chatData){
-                    $scope.messages.push(JSON.parse(chatData.body));
+                    var parsedData = JSON.parse(chatData.body);
+                    $scope.messages.push(parsedData);
+                    parsedData.convDate = new Date(parsedData.pubDate);
                     $scope.$apply();
                 });
                 $scope.$apply();
@@ -26,17 +28,17 @@ angular.module('main.controllers', [])
 
         $scope.tag = {
             id : '',
-            onClickConnect : function() {
+            connect : function() {
                 if(this.id.length < 3) {
-                    alert("3 more")
+                    alert("3 more length string")
                 } else {
                     connect(this.id);
                 }
-                console.log('selectTagController');
             },
-            onClickDisconnect : function() {
+            disconnect : function() {
                 stompClient.disconnect();
                 $scope.connected = false;
+                $scope.messages = [];
             }
         };
     });

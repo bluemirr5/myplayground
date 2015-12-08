@@ -1,6 +1,5 @@
 package kr.rang2ne.playground.websocketchat;
 
-import kr.rang2ne.playground.common.RuntimeBaseException;
 import kr.rang2ne.playground.member.model.MemberDTO;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.ServerHttpRequest;
@@ -37,6 +36,7 @@ public class ChatWebsocketConfig extends AbstractWebSocketMessageBrokerConfigure
                     Object memberObj = ((ServletServerHttpRequest)request).getServletRequest().getSession().getAttribute("auth");
                     if(memberObj instanceof MemberDTO.SessionModel) {
                         MemberDTO.SessionModel member = (MemberDTO.SessionModel) memberObj;
+                        attributes.put("auth", member);
                         return () -> member.getId();
                     }
                 }

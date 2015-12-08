@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
+import java.util.Map;
 
 /**
  * Created by gswon on 15. 12. 5.
@@ -34,8 +36,13 @@ public class ChatController {
 
     @MessageMapping("/channel/{channel}")
     public void sendChannel(@DestinationVariable String channel, SimpMessageHeaderAccessor headerAccessor, Message message) {
-        String userName = headerAccessor.getUser().getName();
-        message.setFromUser(userName);
+//        String userName = headerAccessor.getUser().getName();
+        Map<String, Object> sessionAttributes = headerAccessor.getSessionAttributes();
+        if(sessionAttributes != null && sessionAttributes.get("auth") != null) {
+            MemberDTO.SessionModel sessionModel = (MemberDTO.SessionModel)sessionAttributes.get("auth");
+            message.setFromUser(sessionModel.getId());
+        }
+        message.setPubDate(new Date());
         simpMessagingTemplate.convertAndSend("/chat/"+channel, message);
     }
 }
