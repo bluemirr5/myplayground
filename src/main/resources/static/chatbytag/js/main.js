@@ -2,11 +2,14 @@ angular.module('main.controllers', [])
     .controller('selectTagController', function($scope) {
         $scope.connected = false;
         $scope.messages = [];
+        $scope.me = '';
         var stompClient;
         function connect(tag) {
             var socket = new SockJS('/chatByTag');
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function(frame) {
+                console.log(frame);
+                $scope.me = frame.headers['user-name'];
                 $scope.connected = true;
                 stompClient.subscribe('/chat/'+tag, function(chatData){
                     var parsedData = JSON.parse(chatData.body);

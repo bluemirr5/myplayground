@@ -56,7 +56,7 @@
                                 <div class="media-body">
                                     <div class="media">
                                         <a class="pull-left" href="#">
-                                            <img class="media-object img-circle " src="assets/img/user.png" />
+                                            <img class="media-object img-circle " style="max-height:40px;" src="/chatbytag/img/defaultimg.jpg" />
                                         </a>
                                         <div class="media-body">
                                             <span ng-bind="message.message"></span>
@@ -90,14 +90,23 @@
                                 <div class="media-body">
                                     <div class="media">
                                         <a class="pull-left" href="#">
-                                            <img class="media-object img-circle" style="max-height:40px;" src="assets/img/user.png" />
+                                            <img class="media-object img-circle" style="max-height:40px;" src="/chatbytag/img/defaultimg.jpg" />
                                         </a>
                                         <div class="media-body">
-                                            <h5>Alex Deo | User </h5>
+                                            <h4><span ng-bind="me"></span> | Me </h4>
+                                            <!--<small class="text-muted">Active From 3 hours</small>-->
+                                        </div>
+
+                                    </div>
+                                    <div class="media">
+                                        <a class="pull-left" href="#">
+                                            <img class="media-object img-circle" style="max-height:40px;" src="/chatbytag/img/defaultimg.jpg" />
+                                        </a>
+                                        <div class="media-body">
+                                            <h5>user1</h5>
                                             <small class="text-muted">Active From 3 hours</small>
                                         </div>
                                     </div>
-
                                 </div>
                             </li>
                         </ul>
