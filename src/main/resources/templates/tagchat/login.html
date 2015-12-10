@@ -3,28 +3,86 @@
 <head>
     <meta charset="UTF-8" />
     <title>ChatByTag</title>
+    <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css" />
     <script src="/components/angular/angular.min.js"></script>
     <script src="/chatbytag/js/login.js"></script>
+    <style>
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #eee;
+        }
+
+        .form-signin {
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+        .form-signin .form-signin-heading,
+        .form-signin .checkbox {
+            margin-bottom: 10px;
+        }
+        .form-signin .checkbox {
+            font-weight: normal;
+        }
+        .form-signin .form-control {
+            position: relative;
+            height: auto;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .form-signin .form-control:focus {
+            z-index: 2;
+        }
+        .form-signin input[type="email"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    </style>
 </head>
 <body>
-    <form ng-controller="loginController">
-        <div>
-            <label for="loginId">ID : </label><input id="loginId" type="text" ng-model="loginmodel.id" />
-            <br />
-            <label for="pass">PASSWORD : </label><input id="pass" type="password" ng-model="loginmodel.pass" />
-            <br />
-            <button id="submit" ng-click="loginmodel.login()">LOGIN</button>
+<div class="container" ng-controller="loginController">
+
+    <form class="form-signin">
+        <div ng-show="!joinFlag">
+            <h2 class="form-signin-heading">Please sign in</h2>
+            <label for="inputId" class="sr-only">ID</label>
+            <input ng-model="loginmodel.id" type="text" id="inputId" class="form-control" placeholder="ID"  />
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input ng-model="loginmodel.pass" type="password" id="inputPassword" class="form-control" placeholder="Password" />
+            <button ng-click="loginmodel.login()" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <div>
+                <label>
+                    <a ng-click="joinFlag = !joinFlag">SignUp</a>
+                </label>
+            </div>
         </div>
-        <button ng-click="joinFlag = !joinFlag">join</button>
         <div ng-show="joinFlag">
-            <label for="joinId">ID : </label><input id="joinId" type="text" ng-model="joinmodel.id" />
-            <br />
-            <label for="joinPass">PASSWORD : </label><input id="joinPass" type="password" ng-model="joinmodel.pass" />
-            <br />
-            <label for="passconfirm">REPASSWORD : </label><input id="passconfirm" type="password" ng-model="joinmodel.repass" />
-            <br />
-            <button id="join" ng-click="joinmodel.join()">JOIN</button>
+            <hr />
+            <h2 class="form-signin-heading">Please sign up</h2>
+            <label for="inputUpId" class="sr-only">ID</label>
+            <input ng-model="joinmodel.id" type="text" id="inputUpId" class="form-control" placeholder="ID"  />
+            <label for="inputUpPassword" class="sr-only">Password</label>
+            <input ng-model="joinmodel.pass" type="password" id="inputUpPassword" class="form-control" placeholder="Password" />
+            <label for="inputUpRePassword" class="sr-only">RePassword</label>
+            <input ng-model="joinmodel.repass" type="password" id="inputUpRePassword" class="form-control" placeholder="Password" />
+            <button ng-click="joinmodel.join()" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <div>
+                <label>
+                    <a ng-click="joinFlag = !joinFlag">SignIn</a>
+                </label>
+            </div>
         </div>
     </form>
+</div> <!-- /container -->
 </body>
 </html>

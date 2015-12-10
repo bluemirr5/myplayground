@@ -69,6 +69,12 @@ public class MemberController {
         return new ResponseEntity<>(modelMapper.map(member, MemberDTO.LoginRESP.class), HttpStatus.OK);
     }
 
+    @RequestMapping("/logout")
+    public ResponseEntity logout(HttpSession session) {
+        session.removeAttribute("auth");
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @ExceptionHandler(AuthFailException.class)
     public ResponseEntity<Integer> exceptionHandling(AuthFailException e) {
         return new ResponseEntity<>(e.getDetailErrorCode(), HttpStatus.BAD_REQUEST);

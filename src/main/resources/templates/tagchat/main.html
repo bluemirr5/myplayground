@@ -1,22 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="chatApp">
+<html lang="en" ng-app="chatApp" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8" />
     <title>ChatByTag</title>
     <link rel="stylesheet" href="/components/bootstrap/dist/css/bootstrap.min.css" />
     <style>
-        body {
-            padding-top: 50px;
+        body, html {
+            padding-top: 30px;
         }
-        /*.starter-template {*/
-            /*padding: 40px 15px;*/
-            /*text-align: center;*/
-        /*}*/
     </style>
+    <script src="/components/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+        <div class="container" >
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
@@ -32,13 +29,24 @@
                     <li><a href="#about">About</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <!--<li><a href="../navbar/">Default</a></li>-->
+                    <!--<li><a href="../navbar-static-top/">Static top</a></li>-->
+                    <li class="active">
+                        <a href="./tagchat/logout" ng-click="nav.onLogoutClick()">
+                            <span class="sr-only">(current)</span>
+                            LOGOUT
+                            [<span th:text="${session.auth.id}"></span>]
+                        </a>
+                    </li>
+                </ul>
             </div><!--/.nav-collapse -->
         </div>
     </nav>
 
-    <div class="container">
-        <div ng-controller="selectTagController" class="row" style="padding-top: 30px">
-            <div class="col-md-8">
+    <div class="container" style="height:100%">
+        <div ng-controller="chatController" class="row" style="padding-top: 30px">
+            <div class="col-md-8 content">
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <div class="input-group">
@@ -50,7 +58,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body" id="messagecontent">
                         <ul class="media-list">
                             <li class="media" ng-repeat="message in messages">
                                 <div class="media-body">
@@ -117,7 +125,7 @@
     </div><!-- /.container -->
 
 
-    <script src="/components/jquery/dist/jquery.min.js"></script>
+
     <script src="/components/angular/angular.min.js"></script>
     <script src="/components/sockjs/sockjs.min.js"></script>
     <script src="/components/stomp-websocket/lib/stomp.min.js"></script>

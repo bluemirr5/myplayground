@@ -27,6 +27,12 @@ public class ChatController {
     @Autowired
     private WebSocketSessionManager webSocketSessionManager;
 
+    @RequestMapping(value = "/tagchat/logout")
+    public String chatLogout(HttpSession session) {
+        session.removeAttribute("auth");
+        return "redirect:/tagchat";
+    }
+
     @RequestMapping(value = "/tagchat")
     public String chatMain(HttpSession session){
         Object member = session.getAttribute("auth");
@@ -38,9 +44,9 @@ public class ChatController {
         return "tagchat/main";
     }
 
+
     @MessageMapping("/channel/{channel}")
-    public void sendChannel(@DestinationVariable String channel, SimpMessageHeaderAccessor headerAccessor, Message message) {
-//        String userName = headerAccessor.getUser().getName();
+    public void sendMessage(@DestinationVariable String channel, SimpMessageHeaderAccessor headerAccessor, Message message) {
         Map<String, Object> sessionAttributes = headerAccessor.getSessionAttributes();
         if(sessionAttributes != null && sessionAttributes.get("auth") != null) {
             MemberDTO.SessionModel sessionModel = (MemberDTO.SessionModel)sessionAttributes.get("auth");
@@ -50,13 +56,14 @@ public class ChatController {
         simpMessagingTemplate.convertAndSend("/chat/"+channel, message);
     }
 
-    @SubscribeMapping("/chat/{channel}")
-    public void printSubscribe(@DestinationVariable String channel, SimpMessageHeaderAccessor headerAccessor){
-        webSocketSessionManager.registerByChannel(channel, headerAccessor.getSessionId());
-    }
-
     @MessageMapping("/reqUserInfo/{channel}")
     public void getUserInfo(@DestinationVariable String channel){
         webSocketSessionManager.sendUsersInfo(channel);
     }
+
+    @SubscribeMapping("/chat/{channel}")
+    public void onInChannelSubscribe(@DestinationVariable String channel, SimpMessageHeaderAccessor headerAccessor){
+        webSocketSessionManager.registerByChannel(channel, headerAccessor.getSessionId());
+    }
+
 }

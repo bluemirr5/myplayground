@@ -37,22 +37,30 @@ public class WebSocketSessionManager {
     }
 
     public synchronized void registerByChannel(String channel, String sessionId) {
-        Map<String, MemberDTO.SessionModel> sessions = sessionChannelMap.get(channel);
-        if(sessions == null) {
-            sessions = new ConcurrentHashMap<>();
-            sessionChannelMap.put(channel, sessions);
-        }
+        Map<String, MemberDTO.SessionModel> sessions = getSessionChannelItem(channel);
         MemberDTO.SessionModel sessionModel = (MemberDTO.SessionModel)sessionTotalMap.get(sessionId).getAttributes().get("auth");
         sessions.put(sessionId, sessionModel);
     }
 
     public List<MemberDTO.SessionModel> findByChannel(String channel) {
         List<MemberDTO.SessionModel> result = new ArrayList<>();
-        sessionChannelMap.get(channel).forEach((s, sessionModel) -> result.add(sessionModel));
+
+
+
+        getSessionChannelItem(channel).forEach((s, sessionModel) -> result.add(sessionModel));
         return result;
     }
 
     public void sendUsersInfo(String channel) {
         simpMessagingTemplate.convertAndSend("/userInfo/"+channel, findByChannel(channel));
+    }
+
+    private Map<String, MemberDTO.SessionModel> getSessionChannelItem(String channel) {
+        Map<String, MemberDTO.SessionModel> sessions = sessionChannelMap.get(channel);
+        if(sessions == null) {
+            sessions = new ConcurrentHashMap<>();
+            sessionChannelMap.put(channel, sessions);
+        }
+        return sessions;
     }
 }

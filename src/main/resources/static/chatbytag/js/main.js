@@ -1,5 +1,5 @@
 angular.module('main.controllers', [])
-    .controller('selectTagController', function($scope) {
+    .controller('chatController', function($scope) {
         $scope.connected = false;
         $scope.messages = [];
         $scope.users = [];
