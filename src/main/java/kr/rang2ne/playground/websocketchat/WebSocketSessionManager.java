@@ -1,6 +1,9 @@
 package kr.rang2ne.playground.websocketchat;
 
+import kr.rang2ne.playground.member.model.MemberDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -15,29 +18,41 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Component
 public class WebSocketSessionManager {
+    @Autowired
+    SimpMessagingTemplate simpMessagingTemplate;
+
     private final Map<String, WebSocketSession> sessionTotalMap = new ConcurrentHashMap<>();
-    private final Map<String, List<WebSocketSession>> sessionChannelMap = new ConcurrentHashMap<>();
+    private final Map<String, Map<String, MemberDTO.SessionModel>> sessionChannelMap = new ConcurrentHashMap<>();
 
     public synchronized void register(WebSocketSession session) {
         sessionTotalMap.put(session.getId(), session);
     }
 
     public synchronized void remove(WebSocketSession session) {
-        sessionTotalMap.remove(session.getId());
+        sessionChannelMap.forEach((s, webSocketSessions) -> {
+            if(webSocketSessions.remove(session.getId()) != null) {
+                simpMessagingTemplate.convertAndSend("/userInfo/"+s, findByChannel(s));
+            }
+        });
     }
 
     public synchronized void registerByChannel(String channel, String sessionId) {
-        List<WebSocketSession> sessions = sessionChannelMap.get(channel);
+        Map<String, MemberDTO.SessionModel> sessions = sessionChannelMap.get(channel);
         if(sessions == null) {
-            sessions = new ArrayList<>();
+            sessions = new ConcurrentHashMap<>();
             sessionChannelMap.put(channel, sessions);
         }
-        sessions.add(sessionTotalMap.get(sessionId));
+        MemberDTO.SessionModel sessionModel = (MemberDTO.SessionModel)sessionTotalMap.get(sessionId).getAttributes().get("auth");
+        sessions.put(sessionId, sessionModel);
     }
 
-    public synchronized void removeByChannel(String channel, String sessionId) {
-        List<WebSocketSession> sessions = sessionChannelMap.get(channel);
-        WebSocketSession webSocketSession = sessionTotalMap.get(sessionId);
-        sessions.remove(webSocketSession);
+    public List<MemberDTO.SessionModel> findByChannel(String channel) {
+        List<MemberDTO.SessionModel> result = new ArrayList<>();
+        sessionChannelMap.get(channel).forEach((s, sessionModel) -> result.add(sessionModel));
+        return result;
+    }
+
+    public void sendUsersInfo(String channel) {
+        simpMessagingTemplate.convertAndSend("/userInfo/"+channel, findByChannel(channel));
     }
 }

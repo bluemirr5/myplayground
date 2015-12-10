@@ -2,6 +2,7 @@ angular.module('main.controllers', [])
     .controller('selectTagController', function($scope) {
         $scope.connected = false;
         $scope.messages = [];
+        $scope.users = [];
         $scope.me = '';
         var stompClient;
         function connect(tag) {
@@ -17,6 +18,14 @@ angular.module('main.controllers', [])
                     parsedData.convDate = new Date(parsedData.pubDate);
                     $scope.$apply();
                 });
+
+                stompClient.subscribe('/userInfo/'+tag, function(userData){
+                    var parsedData = JSON.parse(userData.body);
+                    $scope.users = parsedData;
+                    $scope.$apply();
+                });
+
+                stompClient.send('/reqUserInfo/'+$scope.tag.id, {},  JSON.stringify({}))
                 $scope.$apply();
             });
         }
@@ -42,6 +51,8 @@ angular.module('main.controllers', [])
                 stompClient.disconnect();
                 $scope.connected = false;
                 $scope.messages = [];
+                $scope.users = [];
+                $scope.me = '';
             }
         };
     });

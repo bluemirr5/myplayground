@@ -64,7 +64,7 @@ public class ChatWebsocketConfig extends WebSocketMessageBrokerConfigurationSupp
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/chat");
+        config.enableSimpleBroker("/chat","/userInfo");
 //        config.setApplicationDestinationPrefixes("/app");
     }
 

@@ -52,10 +52,11 @@ public class ChatController {
 
     @SubscribeMapping("/chat/{channel}")
     public void printSubscribe(@DestinationVariable String channel, SimpMessageHeaderAccessor headerAccessor){
-        Map<String, Object> sessionAttributes = headerAccessor.getSessionAttributes();
-        if(sessionAttributes != null && sessionAttributes.get("auth") != null) {
-            MemberDTO.SessionModel sessionModel = (MemberDTO.SessionModel)sessionAttributes.get("auth");
-        }
         webSocketSessionManager.registerByChannel(channel, headerAccessor.getSessionId());
+    }
+
+    @MessageMapping("/reqUserInfo/{channel}")
+    public void getUserInfo(@DestinationVariable String channel){
+        webSocketSessionManager.sendUsersInfo(channel);
     }
 }

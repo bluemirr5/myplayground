@@ -98,12 +98,12 @@
                                         </div>
 
                                     </div>
-                                    <div class="media">
+                                    <div class="media" ng-repeat="user in users">
                                         <a class="pull-left" href="#">
                                             <img class="media-object img-circle" style="max-height:40px;" src="/chatbytag/img/defaultimg.jpg" />
                                         </a>
                                         <div class="media-body">
-                                            <h5>user1</h5>
+                                            <h5 ng-bind="user.id"></h5>
                                             <small class="text-muted">Active From 3 hours</small>
                                         </div>
                                     </div>
