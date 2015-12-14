@@ -1,9 +1,9 @@
 package kr.rang2ne.playground;
 
+import kr.rang2ne.playground.member.MemberService;
 import kr.rang2ne.playground.member.exception.AuthFailException;
 import kr.rang2ne.playground.member.exception.DuplicationIdException;
 import kr.rang2ne.playground.member.model.Member;
-import kr.rang2ne.playground.member.MemberService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+
+//import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 /**
  * Created by gswon on 15. 11. 30.
@@ -34,6 +36,15 @@ public class MemberServiceTest {
     @Before
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    }
+
+    @Test
+    public void MokMvcTest() throws Exception {
+//        mockMvc.perform(
+//                post("/member")
+//                .accept("Adsafs")
+//                .content("{asdfasdf}")
+//        )
     }
 
     @Test(expected = DuplicationIdException.class)
